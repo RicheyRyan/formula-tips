@@ -12,14 +12,6 @@ import { useSearchParams } from "./lib/Search";
 import { DriversSelect } from "./features/drivers";
 import { VersusChart } from "./features/versus";
 
-declare module "solid-js" {
-  namespace JSX {
-    interface Directives {
-      searchSync: string;
-    }
-  }
-}
-
 const Versus = () => {
   const [searchParams, setSearchParam] = useSearchParams();
   onMount(() => {

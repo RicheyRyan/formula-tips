@@ -1,4 +1,3 @@
-import { createEffect } from "solid-js";
 import { createQuery, http } from "../../lib/Query";
 export * from "./components/SessionsSelect";
 
