@@ -27,7 +27,7 @@ const Versus = () => {
   });
 
   return (
-    <form class="max-w-xxl mx-auto px-14">
+    <form class="max-w-xxl mx-auto px-14 pb-4">
       <MeetingsSelect />
       <Show when={searchParams().meetingKey}>
         <SessionsSelect meetingKey={() => searchParams().meetingKey!} />
