@@ -1,9 +1,9 @@
-import { Component, For, Show } from "solid-js";
+import { Accessor, Component, For, Show } from "solid-js";
 import { useSessions } from "..";
 import { Select } from "../../flowbite";
 import { useSearchParams } from "../../../lib/Search";
 
-export const SessionsSelect: Component<{ meetingKey: () => number }> = (
+export const SessionsSelect: Component<{ meetingKey: Accessor<number> }> = (
   props,
 ) => {
   const sessions = useSessions({ meetingKey: props.meetingKey });

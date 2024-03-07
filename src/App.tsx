@@ -3,43 +3,56 @@ import "flowbite";
 import { SolidQueryDevtools } from "@tanstack/solid-query-devtools";
 import { QueryClientProvider } from "@tanstack/solid-query";
 import { queryClient } from "./lib/Query";
-import { MeetingsSelect } from "./features/meetings";
 import { Topbar } from "./features/flowbite";
-import { Show, onMount } from "solid-js";
-import { SessionsSelect } from "./features/sessions";
-import { Route, Router } from "@solidjs/router";
-import { useSearchParams } from "./lib/Search";
-import { DriversSelect } from "./features/drivers";
-import { VersusChart } from "./features/versus";
+import { ParentComponent, createEffect } from "solid-js";
+import { A, Route, Router, useMatch } from "@solidjs/router";
+import { Versus } from "./routes/Versus";
+import { Timings } from "./routes/Timings";
 
-const Versus = () => {
-  const [searchParams, setSearchParam] = useSearchParams();
-  onMount(() => {
-    setSearchParam({ mode: "versus" });
-  });
-
+const NavbarLink: ParentComponent<{
+  href: string;
+  position: "start" | "middle" | "end";
+}> = (props) => {
+  const match = useMatch(() => props.href);
+  const current = () => match()?.path === "href";
   return (
-    <form class="max-w-xxl mx-auto px-14 pb-4">
-      <MeetingsSelect />
-      <Show when={searchParams().meetingKey}>
-        <SessionsSelect meetingKey={() => searchParams().meetingKey!} />
-      </Show>
-      <Show when={searchParams().sessionKey && searchParams().meetingKey}>
-        <DriversSelect sessionKey={() => searchParams().sessionKey!} />
-      </Show>
-      <Show
-        when={
-          searchParams().sessionKey &&
-          searchParams().meetingKey &&
-          searchParams().driverNumber
-        }
-      >
-        <VersusChart
-          sessionKey={() => searchParams().sessionKey!}
-          driverNumber={() => searchParams().driverNumber!}
-        />
-      </Show>
-    </form>
+    <A
+      href={props.href}
+      {...(current() ? { "aria-current": "page" } : {})}
+      class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white"
+      classList={{
+        "rounded-s-lg dark:hover:bg-gray-700": props.position === "start",
+        "border-t border-b": props.position === "middle",
+        "rounded-e-lg": props.position === "end",
+        "bg-grey-100 text-blue-700": current(),
+      }}
+    >
+      {props.children}
+    </A>
+  );
+};
+
+const Navbar = () => {
+  return (
+    <nav class="max-w-screen-xl mx-auto px-4 pb-4">
+      <div class="inline-flex rounded-md shadow-sm">
+        <NavbarLink position="start" href="/versus">
+          Versus
+        </NavbarLink>
+        <NavbarLink position="end" href="/timings">
+          Timings
+        </NavbarLink>
+      </div>
+    </nav>
+  );
+};
+
+const Layout: ParentComponent = (props) => {
+  return (
+    <>
+      <Navbar />
+      {props.children}
+    </>
   );
 };
 
@@ -49,7 +62,10 @@ function App() {
       <SolidQueryDevtools />
       <Topbar title="Formula Tips" />
       <Router>
-        <Route path="" component={Versus} />
+        <Route path="/" component={Layout}>
+          <Route path="/versus" component={Versus} />
+          <Route path="/timings" component={Timings} />
+        </Route>
       </Router>
     </QueryClientProvider>
   );

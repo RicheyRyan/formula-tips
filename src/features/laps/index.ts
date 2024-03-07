@@ -1,3 +1,4 @@
+import { Accessor } from "solid-js";
 import { createQuery, http } from "../../lib/Query";
 
 export interface Lap {
@@ -23,8 +24,8 @@ export const useLaps = ({
   sessionKey,
   driverNumber,
 }: {
-  sessionKey: () => number;
-  driverNumber: () => number;
+  sessionKey: Accessor<number>;
+  driverNumber: Accessor<number>;
 }) => {
   return createQuery(() => ({
     skip: !sessionKey || !driverNumber,

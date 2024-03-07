@@ -1,4 +1,4 @@
-import { createMemo } from "solid-js";
+import { Accessor, createMemo } from "solid-js";
 import { createQuery, http } from "../../lib/Query";
 
 export * from "./components/DriversSelect";
@@ -18,7 +18,11 @@ export interface Driver {
   teamName: string;
 }
 
-export const useDrivers = ({ sessionKey }: { sessionKey: () => number }) => {
+export const useDrivers = ({
+  sessionKey,
+}: {
+  sessionKey: Accessor<number>;
+}) => {
   return createQuery(() => ({
     skip: !sessionKey(),
     queryKey: ["drivers", sessionKey()],
@@ -38,8 +42,8 @@ export const useDriver = ({
   driverNumber,
   sessionKey,
 }: {
-  driverNumber: () => number;
-  sessionKey: () => number;
+  driverNumber: Accessor<number>;
+  sessionKey: Accessor<number>;
 }) => {
   const driver = createMemo(() => {
     const drivers = useDrivers({ sessionKey });

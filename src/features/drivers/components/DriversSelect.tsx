@@ -1,4 +1,4 @@
-import { Component, For, Show } from "solid-js";
+import { Accessor, Component, For } from "solid-js";
 import { useDrivers } from "..";
 import { Select } from "../../flowbite";
 import { useSearchParams } from "../../../lib/Search";
@@ -10,7 +10,7 @@ import { useSearchParams } from "../../../lib/Search";
 const numDrivers = 20;
 
 export const DriversSelect: Component<{
-  sessionKey: () => number;
+  sessionKey: Accessor<number>;
 }> = (props) => {
   const drivers = useDrivers({
     sessionKey: props.sessionKey,
@@ -29,9 +29,6 @@ export const DriversSelect: Component<{
         setSearchParam({ driverNumber: value.join(",") });
       }}
     >
-      <Show when={!searchParams().driverNumber}>
-        <option selected={true}>Select driver</option>
-      </Show>
       <For each={drivers.data}>
         {(driver) => (
           <option
