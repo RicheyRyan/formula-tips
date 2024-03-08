@@ -57,6 +57,22 @@ export const VersusChart: Component<{
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
+    scales: {
+      x: {
+        display: true,
+        title: {
+          display: true,
+          text: "Lap number",
+        },
+      },
+      y: {
+        display: true,
+        title: {
+          display: true,
+          text: "Lap time (s)",
+        },
+      },
+    },
   };
 
   return (

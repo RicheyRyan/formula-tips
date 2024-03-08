@@ -1,3 +1,4 @@
+import { Accessor } from "solid-js";
 import { createQuery, http } from "../../lib/Query";
 export * from "./components/SessionsSelect";
 
@@ -14,11 +15,15 @@ interface Session {
   meetingKey: number;
   sessionKey: number;
   sessionName: string;
-  sessionType: string;
+  sessionType: "Practice" | "Qualifying" | "Sprint" | "Race";
   year: number;
 }
 
-export const useSessions = ({ meetingKey }: { meetingKey: () => number }) => {
+export const useSessions = ({
+  meetingKey,
+}: {
+  meetingKey: Accessor<number>;
+}) => {
   return createQuery(() => ({
     skip: !meetingKey(),
     queryKey: ["sessions", meetingKey()],

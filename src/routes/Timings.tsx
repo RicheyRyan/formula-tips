@@ -13,10 +13,7 @@ export const Timings = () => {
         <SessionsSelect meetingKey={() => searchParams().meetingKey!} />
       </Show>
       <Show when={searchParams().sessionKey && searchParams().meetingKey}>
-        <TimingsTable
-          sessionKey={() => searchParams().sessionKey!}
-          driverNumber={() => searchParams().driverNumber!}
-        />
+        <TimingsTable sessionKey={() => searchParams().sessionKey!} />
       </Show>
     </form>
   );
