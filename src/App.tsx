@@ -57,10 +57,14 @@ const Layout: ParentComponent = (props) => {
 };
 
 function App() {
+  if (window.location.pathname === "/") {
+    window.history.replaceState({}, "", "/versus");
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
       <SolidQueryDevtools />
-      <Topbar title="Formula Tips" />
+      <Topbar title="Grand Prix Laps" />
       <Router>
         <Route path="/" component={Layout}>
           <Route path="/versus" component={Versus} />

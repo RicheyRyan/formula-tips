@@ -4,6 +4,7 @@ import { Accessor, Component, createMemo, onMount } from "solid-js";
 import { useLaps } from "../../laps";
 import { useDriver } from "../../drivers";
 import { range } from "../../../lib/Utils";
+import { useStints } from "../../stints";
 
 export const VersusChart: Component<{
   sessionKey: Accessor<number>;
@@ -24,6 +25,8 @@ export const VersusChart: Component<{
           sessionKey: props.sessionKey,
           driverNumber: () => number,
         }),
+      stints: () =>
+        useStints({ sessionKey: props.sessionKey, driverNumber: () => number }),
     }));
 
     const totalLaps = [];
